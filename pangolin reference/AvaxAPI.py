@@ -40,6 +40,7 @@ class AvalancheAPI(object):
 # ----------------------------------- BUY ----------------------------------- #
     def buy(self, token_address, token_to_spend):
         token_to_buy = self.web3.toChecksumAddress(token_address)
+        
         txn = self.contract.functions.swapExactAVAXForTokensSupportingFeeOnTransferTokens(
             1,  # MinAmountOut, risk of getting frontrun by setting to 1, but saves us from having to calculate it
             [self.spend, token_to_buy],  # Path, which token to spend, which to get

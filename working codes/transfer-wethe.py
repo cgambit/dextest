@@ -14,7 +14,7 @@ def transfer_wethe():
     # set the addresses
     sender = '0xbA4eD1bE76587e000588fc3499707cAF581E626b'
     receiver = '0x16233bbDe3ed87E6a5627e8E2B03Dc5C15320a8D'
-    pkey = os.environ.get('private_key')
+    pkey = os.environ.get('ctraderxt')
     private_key = pkey
 
     # WETH.e Contract address & ABI from https://snowtrace.io/address/0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab

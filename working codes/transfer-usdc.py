@@ -14,7 +14,7 @@ def transfer_usdc():
     # set the addresses
     sender = '0xbA4eD1bE76587e000588fc3499707cAF581E626b'
     receiver = '0x16233bbDe3ed87E6a5627e8E2B03Dc5C15320a8D'
-    pkey = os.environ.get('private_key')
+    pkey = os.environ.get('ctraderxt')
     private_key = pkey
 
     # USDC Contract address from https://snowtrace.io/address/0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e

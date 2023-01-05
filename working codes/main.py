@@ -62,9 +62,9 @@ if __name__ == "__main__":
     send_receipt = awaitReceipt(send_tx) # Wait for transaction to finish
 
     if send_receipt.status == 1: # Check if the transaction went through
-        print('Bought Successfully!')
+        print('Transferred Successfully!')
     else:
-        print('Buy Failed,  Exiting...')
+        print('Transfer Failed,  Exiting...')
         exit()
 
     

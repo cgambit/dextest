@@ -12,9 +12,9 @@ def transfer_wethe():
 	    print('Connection Failed')  
 
     # set the addresses
-    sender = '0xbA4eD1bE76587e000588fc3499707cAF581E626b'
-    receiver = '0x16233bbDe3ed87E6a5627e8E2B03Dc5C15320a8D'
-    pkey = os.environ.get('ctraderxt')
+    sender = '0xf77EFf67141540FCBabc150773211708723aF6b2'
+    receiver = '0x744FCC88edb17d0d5284F2FEeb1B0e21dFd8eC6D'
+    pkey = os.environ.get('erin')
     private_key = pkey
 
     # WETH.e Contract address & ABI from https://snowtrace.io/address/0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab
@@ -31,7 +31,7 @@ def transfer_wethe():
     nonce = w3.eth.getTransactionCount(sender)
     transaction = token_contract.functions.transfer(
         receiver, 
-        w3.toWei(0.001, 'ether')).buildTransaction({
+        token_balance).buildTransaction({
             'nonce': nonce,
             'gas': 200000,
             'gasPrice': w3.eth.gas_price

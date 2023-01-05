@@ -1,7 +1,7 @@
 import os
 
-SENDER_ADDRESS = '0x1E556AD57250F4418457aC4bbB492977472Ac763' # ctraderxt metamask address
-PRIVATE_KEY = os.environ.get('gonyot')
+SENDER_ADDRESS = '0x744FCC88edb17d0d5284F2FEeb1B0e21dFd8eC6D' # ctraderxt metamask address
+PRIVATE_KEY = os.environ.get('danny')
 
 RPC_URL = 'https://nd-174-389-806.p2pify.com/579e4bc57a8f733ad2f333fdc2354f3c/ext/bc/C/rpc' #from chainstack C-Chain HTTPS endpoint
 USDT_ADDRESS = '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7'

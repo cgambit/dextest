@@ -2,7 +2,7 @@ from web3 import Web3
 import config as c
 import time
 
-# This script will Swap WAVAX to USDT in Pangolin
+# This script will Swap WAVAX to WETH.e in Pangolin
 
 # ------------------------------- INITIALIZE -------------------------------- #
 
@@ -23,7 +23,7 @@ def swap_token(sell_token, receive_token):
     balance = sell_token_contract.functions.balanceOf(c.SENDER_ADDRESS).call()  # How many USDT do we have?
     print(balance)
 
-    sell_amt = balance 
+    sell_amt = w3.toWei(0.1, 'ether') 
     print(sell_amt)
 
     txn = contract.functions.swapExactTokensForTokensSupportingFeeOnTransferTokens(
@@ -54,7 +54,7 @@ def awaitReceipt(tx):
 
 if __name__ == "__main__":
     sell_token = w3.toChecksumAddress(c.WAVAX_ADDRESS) 
-    receive_token = w3.toChecksumAddress(c.USDT_ADDRESS)
+    receive_token = w3.toChecksumAddress(c.WETHe_ADDRESS)
 
     swap_tx = swap_token(sell_token, receive_token)
     print(swap_tx)

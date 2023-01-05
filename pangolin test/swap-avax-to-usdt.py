@@ -2,38 +2,28 @@ from web3 import Web3
 import config as c
 import time
 
-# This script will Swap WAVAX to USDT in Pangolin
-
 # ------------------------------- INITIALIZE -------------------------------- #
 
 w3 = Web3(Web3.HTTPProvider(c.RPC_URL))
-
 if w3.isConnected():
     print('Connection Successful')
 else:
     print('Connection Failed')
+spend = w3.toChecksumAddress(c.WAVAX_ADDRESS)
+contract = w3.eth.contract(address=w3.toChecksumAddress(c.PANGOLIN_ROUTER_CONTRACT_ADDRESS), abi=c.AVA_ABI)
 
 # ---------------------------- SWAP TOKENS ----------------------------- #
-def swap_token(sell_token, receive_token):
-    contract = w3.eth.contract(address=w3.toChecksumAddress(c.PANGOLIN_ROUTER_CONTRACT_ADDRESS), abi=c.AVA_ABI)
+def swap_token(token_address, token_to_spend):
+    token_to_buy = w3.toChecksumAddress(token_address)
 
-    contract_id = w3.toChecksumAddress(sell_token)
-    sell_token_contract = w3.eth.contract(contract_id, abi=c.WAVAX_ABI)
-
-    balance = sell_token_contract.functions.balanceOf(c.SENDER_ADDRESS).call()  # How many USDT do we have?
-    print(balance)
-
-    sell_amt = balance 
-    print(sell_amt)
-
-    txn = contract.functions.swapExactTokensForTokensSupportingFeeOnTransferTokens(
-        sell_amt,
+    txn = contract.functions.swapExactAVAXForTokensSupportingFeeOnTransferTokens(
         0,  # MinAmountOut
-        [sell_token, receive_token],  # Path, which token to spend, which to get
+        [spend, token_to_buy],  # Path, which token to spend, which to get
         c.SENDER_ADDRESS,  # Our own (metamask) wallet address
         (int(time.time()) + 10000)  # Deadline
     ).buildTransaction({
         'from': c.SENDER_ADDRESS,
+        'value': w3.toWei(token_to_spend, 'ether'),
         'gas': 200000,
         'gasPrice': w3.eth.gas_price,
         'nonce': w3.eth.get_transaction_count(c.SENDER_ADDRESS),
@@ -53,16 +43,16 @@ def awaitReceipt(tx):
 
 
 if __name__ == "__main__":
-    sell_token = w3.toChecksumAddress(c.WAVAX_ADDRESS) 
-    receive_token = w3.toChecksumAddress(c.USDT_ADDRESS)
+    token_address = c.USDT_ADDRESS
+    token_to_spend = 0.10 
 
-    swap_tx = swap_token(sell_token, receive_token)
-    print(swap_tx)
+    buy_tx = swap_token(token_address, token_to_spend)
+    print(buy_tx)
 
-    swap_receipt = awaitReceipt(swap_tx) # Wait for transaction to finish
+    buy_receipt = awaitReceipt(buy_tx) # Wait for transaction to finish
 
-    if swap_receipt.status == 1: # Check if the transaction went through
-        print('Swap Successfully!')
+    if buy_receipt.status == 1: # Check if the transaction went through
+        print('Bought Successfully!')
     else:
-        print('Swap Failed,  Exiting...')
+        print('Buy Failed,  Exiting...')
         exit()

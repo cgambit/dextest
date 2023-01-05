@@ -1,8 +1,6 @@
 from web3 import Web3
 import os
 
-pkey = os.environ.get('carlglibrary') # remember to update value to sync with wallet
-
 # connect to the network
 node_url = 'https://nd-174-389-806.p2pify.com/579e4bc57a8f733ad2f333fdc2354f3c/ext/bc/C/rpc' #from chainstack C-Chain HTTPS endpoint
 w3 = Web3(Web3.HTTPProvider(node_url))
@@ -12,14 +10,12 @@ if w3.isConnected():
 else:
 	print('Connection Failed')
 
-# set the addresses
-# sender = Web3.toChecksumAddress('0xdFf9e2bd6841481D48259789bf303fF0203f7a34') # carlglibrary metamask wallet
-# receiver = Web3.toChecksumAddress('0x59A0Fc8Db4d4E07bB53F2242AD53FA05F077475e') # CGB1 infinity wallet
-sender = '0xdFf9e2bd6841481D48259789bf303fF0203f7a34' # carlglibrary metamask wallet
 receiver = '0x59A0Fc8Db4d4E07bB53F2242AD53FA05F077475e' # CGB1 infinity wallet
-private_key = pkey
 
-def transfer_avax():
+def transfer_avax(acct_sender, pkey):
+    sender = acct_sender
+    private_key = pkey
+
     balance = w3.eth.get_balance(sender)
     print(type(balance))
     print('AVAX Balance : ', w3.fromWei(balance, 'ether'))
@@ -33,14 +29,38 @@ def transfer_avax():
         'to': receiver,
         'value': avax_to_send, # to send AVAX with some AVAX balance in wallet
         # 'value': w3.toWei(0.1, 'ether'), # code for sending specific AVAX qty
-        'gas': 200000,
+        'gas': 21000,
         'gasPrice': w3.eth.gas_price,
         'chainId': 43114
     }
     
     sign_transaction = w3.eth.account.sign_transaction(tx, private_key)
     transaction_hash = w3.eth.sendRawTransaction(sign_transaction.rawTransaction)
-    print('AVAX transfer transaction hash : ', w3.toHex(transaction_hash))
+    tx = w3.toHex(transaction_hash)
+    return tx
 
-if __name__ == "__transfer-avax__":
-    transfer_avax()
+# ---------------------------- WAIT FOR RECEIPT ----------------------------- #
+def awaitReceipt(tx):
+    try:
+        return w3.eth.wait_for_transaction_receipt(tx, timeout=30)
+    except Exception as ex:
+        print('Failed to wait for receipt: ', ex)
+        return None
+
+if __name__ == "__main__":
+    # Transaction for carlglibrary metamask wallet
+    acct_sender = '0x744FCC88edb17d0d5284F2FEeb1B0e21dFd8eC6D'
+    pkey = os.environ.get('danny') # remember to update value to sync with wallet
+
+    send_tx = transfer_avax(acct_sender, pkey)
+    print(send_tx)
+
+    send_receipt = awaitReceipt(send_tx) # Wait for transaction to finish
+
+    if send_receipt.status == 1: # Check if the transaction went through
+        print('Transferred Successfully!')
+    else:
+        print('Transfer Failed,  Exiting...')
+        exit()
+
+    

@@ -12,9 +12,9 @@ def transfer_wethe():
 	    print('Connection Failed')  
 
     # set the addresses
-    sender = '0xf77EFf67141540FCBabc150773211708723aF6b2'
-    receiver = '0x744FCC88edb17d0d5284F2FEeb1B0e21dFd8eC6D'
-    pkey = os.environ.get('erin')
+    sender = '0xdFf9e2bd6841481D48259789bf303fF0203f7a34'
+    receiver = '0x1E556AD57250F4418457aC4bbB492977472Ac763'
+    pkey = os.environ.get('carlglibrary')
     private_key = pkey
 
     # WETH.e Contract address & ABI from https://snowtrace.io/address/0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab

@@ -12,9 +12,9 @@ def transfer_usdt():
 	    print('Connection Failed')  
 
     # set the addresses
-    sender = '0x744FCC88edb17d0d5284F2FEeb1B0e21dFd8eC6D'
-    receiver = '0x59A0Fc8Db4d4E07bB53F2242AD53FA05F077475e'
-    pkey = os.environ.get('danny')
+    sender = '0x1E556AD57250F4418457aC4bbB492977472Ac763'
+    receiver = '0x2f9D3129f082830E8EC4d6667db9abdE551E71Cf'
+    pkey = os.environ.get('gonyot')
     private_key = pkey
 
     # USDt Contract address from https://snowtrace.io/token/0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7

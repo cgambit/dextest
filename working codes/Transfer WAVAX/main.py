@@ -1,8 +1,6 @@
 from web3 import Web3
 import os
 
-pkey = os.environ.get('ctraderxt')
-
 # connect to the network
 node_url = 'https://nd-174-389-806.p2pify.com/579e4bc57a8f733ad2f333fdc2354f3c/ext/bc/C/rpc' #from chainstack C-Chain HTTPS endpoint
 w3 = Web3(Web3.HTTPProvider(node_url))
@@ -13,9 +11,9 @@ else:
 	print('Connection Failed')
 
 # set the addresses
-sender = '0xbA4eD1bE76587e000588fc3499707cAF581E626b'
-receiver = '0x16233bbDe3ed87E6a5627e8E2B03Dc5C15320a8D'
-private_key = pkey
+sender = '0xdFf9e2bd6841481D48259789bf303fF0203f7a34'
+receiver = '0x2f9D3129f082830E8EC4d6667db9abdE551E71Cf'
+private_key = os.environ.get('carlglibrary')
 
 def transfer_wavax():
     token_address = '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7'
@@ -24,13 +22,14 @@ def transfer_wavax():
 
     # token balance
     token_balance = token_contract.functions.balanceOf(sender).call()
+    print(token_balance)
     print('Token Balance : ', w3.fromWei(token_balance, 'ether'))
 
     # erc20 transfer
     nonce = w3.eth.getTransactionCount(sender)
     transaction = token_contract.functions.transfer(
         receiver, 
-        w3.toWei(0.5, 'ether')).buildTransaction({
+        token_balance).buildTransaction({
             'nonce': nonce,
             'gas': 200000,
             'gasPrice': w3.eth.gas_price

@@ -2,7 +2,7 @@ from web3 import Web3
 import config as c
 import time
 
-# This script will Swap USDC to WETH.e in TraderJoe
+# This script will Swap USDC to WAVAX in TraderJoe
 
 # ------------------------------- INITIALIZE -------------------------------- #
 
@@ -55,7 +55,7 @@ def awaitReceipt(tx):
 
 if __name__ == "__main__":
     sell_token = w3.toChecksumAddress(c.USDC_ADDRESS) 
-    receive_token = w3.toChecksumAddress(c.WETHe_ADDRESS)
+    receive_token = w3.toChecksumAddress(c.WAVAX_ADDRESS)
 
     swap_tx = swap_token(sell_token, receive_token)
     print(swap_tx)

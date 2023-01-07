@@ -26,7 +26,10 @@ def swap_token(sell_token, receive_token):
     sell_amt = balance # Cannot use toWei or fromWei functions since USDT only has 6 decimals
     print(sell_amt)
 
-    txn = contract.functions.swapExactTokensForTokensSupportingFeeOnTransferTokens(
+    # original function working: swapExactTokensForTokensSupportingFeeOnTransferTokens
+    # trying out swapExtactTokensforTokens to whether dMiner can give rewards
+
+    txn = contract.functions.swapExactTokensForTokens(
         sell_amt,
         0,  # MinAmountOut
         [sell_token, receive_token],  # Path, which token to spend, which to get

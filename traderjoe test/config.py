@@ -1,14 +1,14 @@
 import os
 
-SENDER_ADDRESS = '0xbA4eD1bE76587e000588fc3499707cAF581E626b' # ctraderxt metamask address
-PRIVATE_KEY = os.environ.get('ctraderxt')
+SENDER_ADDRESS = '0xdFf9e2bd6841481D48259789bf303fF0203f7a34' # ctraderxt metamask address
+PRIVATE_KEY = os.environ.get('carlglibrary')
 
 #from chainstack C-Chain HTTPS endpoint
 RPC_URL = 'https://nd-174-389-806.p2pify.com/579e4bc57a8f733ad2f333fdc2354f3c/ext/bc/C/rpc' 
 
 USDC_ADDRESS = '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E'
 WAVAX_ADDRESS = '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7'
-WETHe_ADDRESS= '0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab'
+WETHE_ADDRESS= '0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab'
 
 # Contract address & ABI from https://snowtrace.io/address/0xe3ffc583dc176575eea7fd9df2a7c65f7e23f4c3
 # https://snowtrace.io/address/0x60aE616a2155Ee3d9A68541Ba4544862310933d4

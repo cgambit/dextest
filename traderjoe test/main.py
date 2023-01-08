@@ -13,19 +13,30 @@ if w3.isConnected():
 else:
     print('Connection Failed')
 
+# ---------------------------- APPROVE TOKEN ----------------------------- #
+def approve(sell_token):
+    contract_id = w3.toChecksumAddress(sell_token)
+    sellTokenContract = w3.eth.contract(contract_id, abi=c.WAVAX_ABI)
+    approve = sellTokenContract.functions.approve(w3.toChecksumAddress(c.TRADERJOE_ROUTER_ADDRESS), 1000).buildTransaction({
+        'from': w3.toChecksumAddress(c.SENDER_ADDRESS),
+        'nonce': w3.eth.get_transaction_count(c.SENDER_ADDRESS),
+    })
+    signed_txn = w3.eth.account.sign_transaction(approve, private_key=c.PRIVATE_KEY)
+    tx_token = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+    tx = w3.toHex(tx_token)
+    return tx
+
 # ---------------------------- SWAP TOKENS ----------------------------- #
 def swap_token(sell_token, receive_token):
     contract = w3.eth.contract(address=w3.toChecksumAddress(c.TRADERJOE_ROUTER_ADDRESS), abi=c.AVA_ABI)
 
     contract_id = w3.toChecksumAddress(sell_token)
-    sell_token_contract = w3.eth.contract(contract_id, abi=c.USDC_ABI)
+    sell_token_contract = w3.eth.contract(contract_id, abi=c.WAVAX_ABI)
 
     balance = sell_token_contract.functions.balanceOf(c.SENDER_ADDRESS).call()  # How many USDC do we have?
-    print(balance)
 
-    sell_amt = 1000000 # Cannot use toWei or fromWei functions since USDC only has 6 decimals
-    print(sell_amt)
-
+    sell_amt = balance # Cannot use toWei or fromWei functions since USDC only has 6 decimals
+    print('WAVAX Balance to Sell : ', sell_amt)
 
     txn = contract.functions.swapExactTokensForTokensSupportingFeeOnTransferTokens(
         sell_amt,
@@ -37,7 +48,8 @@ def swap_token(sell_token, receive_token):
         'from': c.SENDER_ADDRESS,
         'gas': 300000,
         'gasPrice': w3.eth.gas_price,
-        'nonce': w3.eth.get_transaction_count(c.SENDER_ADDRESS)
+        'nonce': w3.eth.get_transaction_count(c.SENDER_ADDRESS),
+        'chainId': 43114
     })
     signed_txn = w3.eth.account.sign_transaction(txn, private_key=c.PRIVATE_KEY)
     tx_token = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
@@ -54,16 +66,24 @@ def awaitReceipt(tx):
 
 
 if __name__ == "__main__":
-    sell_token = w3.toChecksumAddress(c.USDC_ADDRESS) 
-    receive_token = w3.toChecksumAddress(c.WETHe_ADDRESS)
+    sell_token = w3.toChecksumAddress(c.WAVAX_ADDRESS) 
+    receive_token = w3.toChecksumAddress(c.USDC_ADDRESS)
 
-    swap_tx = swap_token(sell_token, receive_token)
-    print(swap_tx)
+    # -------------APPROVE TOKENS-----------------------------------------#
+    # Approve the token, must be done once before selling
+    approve_tx = approve(sell_token)
+    print(approve_tx)
+    approve_receipt = awaitReceipt(approve_tx)
+    print(approve_receipt)
 
-    swap_receipt = awaitReceipt(swap_tx) # Wait for transaction to finish
+    # # -------------SWAP TOKENS-----------------------------------------#
+    # swap_tx = swap_token(sell_token, receive_token)
+    # print(swap_tx)
 
-    if swap_receipt.status == 1: # Check if the transaction went through
-        print('Swap Successfully!')
-    else:
-        print('Swap Failed,  Exiting...')
-        exit()
+    # swap_receipt = awaitReceipt(swap_tx) # Wait for transaction to finish
+
+    # if swap_receipt.status == 1: # Check if the transaction went through
+    #     print('Swap Successfully!')
+    # else:
+    #     print('Swap Failed,  Exiting...')
+    #     exit()

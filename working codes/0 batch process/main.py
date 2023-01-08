@@ -75,16 +75,25 @@ def awaitReceipt(tx):
 
 def swap_receipt_status():
     if swap_receipt.status == 1: # Check if the transaction went through
-        print('Swap Successfully!')
+        print('Transaction Successful!')
     else:
-        print('Swap Failed,  Exiting...')
+        print('Transcation Failed,  Exiting...')
         exit()
 
 if __name__ == "__main__":
+
+    # ------------------Initial Step: Acct Setup------------------------ #
+    # Select which acct to start with
+    start_acct = c.CARLGLIBRARY
+
+    for item in start_acct:
+        for key, value in item.items():
+            exec(f"{key} = '{value}'")
+        
     # ------------------Step 1: Swap WAVAX to WETH.e------------------------ # 
-    # Variables to change
-    sender_address = w3.toChecksumAddress(c.CARLGLIBRARY_ADDRESS)
-    sender_pk = c.CARLGLIBRARY_PK
+    # Variables to change in config.py => Acct Batch processing
+    sender_address = w3.toChecksumAddress(address1)
+    sender_pk = address1_pk
     # Fixed variables
     sell_token = w3.toChecksumAddress(c.WAVAX_ADDRESS) 
     receive_token = w3.toChecksumAddress(c.WETHE_ADDRESS)
@@ -98,13 +107,13 @@ if __name__ == "__main__":
 
     swap_receipt_status()
     print('Step 1 Completed!')
-    time.sleep(60) # Wait for 2 minutes to make sure transaction is cleared
+    time.sleep(15) # Wait for 2 minutes to make sure transaction is cleared
 
     # ------------------Step 2: Transfer WETH.e----------------------------- #
-    # Variables to change
-    sender_address = w3.toChecksumAddress(c.CARLGLIBRARY_ADDRESS)
-    sender_pk = c.CARLGLIBRARY_PK
-    receiver_address = w3.toChecksumAddress(c.GONYOT_ADDRESS)
+    # Variables to change in config.py => Acct Batch processing
+    sender_address = w3.toChecksumAddress(address1)
+    sender_pk = address1_pk
+    receiver_address = w3.toChecksumAddress(address2)
     # Fixed variables
     token_address = w3.toChecksumAddress(c.WETHE_ADDRESS)
     token_abi = c.WETHE_ABI
@@ -117,12 +126,12 @@ if __name__ == "__main__":
 
     swap_receipt_status()
     print('Step 2 Completed!')
-    time.sleep(60) # Wait for 2 minutes to make sure transaction is cleared
+    time.sleep(15) # Wait for 2 minutes to make sure transaction is cleared
 
     # ------------------Step 3: Swap WETH.e to WAVAX------------------------ #
-    # Variables to change
-    sender_address = w3.toChecksumAddress(c.GONYOT_ADDRESS)
-    sender_pk = c.GONYOT_PK
+    # Variables to change in config.py => Acct Batch processing
+    sender_address = w3.toChecksumAddress(address2)
+    sender_pk = address2_pk
     # Fixed variables
     sell_token = w3.toChecksumAddress(c.WETHE_ADDRESS) 
     receive_token = w3.toChecksumAddress(c.WAVAX_ADDRESS)
@@ -136,12 +145,12 @@ if __name__ == "__main__":
 
     swap_receipt_status()
     print('Step 3 Completed!')
-    time.sleep(60) # Wait for 2 minutes to make sure transaction is cleared
+    time.sleep(15) # Wait for 2 minutes to make sure transaction is cleared
 
     # ------------------Step 4: Swap WAVAX to USDT------------------------ #
-    # Variables to change
-    sender_address = w3.toChecksumAddress(c.GONYOT_ADDRESS)
-    sender_pk = c.GONYOT_PK
+    # Variables to change in config.py => Acct Batch processing
+    sender_address = w3.toChecksumAddress(address2)
+    sender_pk = address2_pk
     # Fixed variables
     sell_token = w3.toChecksumAddress(c.WAVAX_ADDRESS) 
     receive_token = w3.toChecksumAddress(c.USDT_ADDRESS)
@@ -155,13 +164,13 @@ if __name__ == "__main__":
 
     swap_receipt_status()
     print('Step 4 Completed!')
-    time.sleep(60) # Wait for 2 minutes to make sure transaction is cleared
+    time.sleep(15) # Wait for 2 minutes to make sure transaction is cleared
 
     # ------------------Step 5: Transfer USDT----------------------------- #
     # Variables to change
-    sender_address = w3.toChecksumAddress(c.GONYOT_ADDRESS)
-    sender_pk = c.GONYOT_PK
-    receiver_address = w3.toChecksumAddress(c.CHESSMINING_ADDRESS)
+    sender_address = w3.toChecksumAddress(address2)
+    sender_pk = address2_pk
+    receiver_address = w3.toChecksumAddress(address3)
     # Fixed variables
     token_address = w3.toChecksumAddress(c.USDT_ADDRESS)
     token_abi = c.USDT_ABI
